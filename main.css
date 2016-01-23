@@ -1,0 +1,16 @@
+#main-field button {
+    width: 30px;
+    height: 30px;
+    border: 1px black solid;
+    margin: 1px;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.deleted-cell {
+    background-color: azure !important;
+}
