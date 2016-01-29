@@ -1,60 +1,33 @@
-/*(function () {*/
-var COLOR = {
-        RED: "red",
-        BLUE: "cyan",
-        GREEN: "green",
-        YELLOW: "yellow",
-        PINK: "pink",
-        BLUEVIOLET: "blueviolet",
-        CORAL: "coral"
-    };
-var STATE = {
-        BASE: "base",
-        SELECTED: "selected",
-        EMPTY: "empty"
-    };
-var KEYS = Object.keys(COLOR);
-var FIELD_WIDTH = 6;
-var FIELD_HEIGHT = 6;
-var MIN_SELECTED_CELLS = 2;
-//var field = [];
+function View () {
+    var settings = Settings();
+    var field;
 
-var countDeletedCells = 0;
-var score = 0;
-var model;
-var view;
+    this.generate = function(f, cellHandler) {
+        field = f;
 
-    function newGame(event) {
-        model = new Model();
-        view = new View();
+        var i;
+        var j;
+        var element;
+        var mainField = document.getElementById("main-field");
+        var rowDiv;
 
-        model.generate();
-        view.generate(model.getField(), cellHandler);
-    }
+        for (j = 0; j < settings.FIELD_HEIGHT; j++) {
+            rowDiv = document.createElement("div");
+            for (i = 0; i < settings.FIELD_WIDTH; i++) {
+                element = document.createElement("button");
+                element.onclick = cellHandler.bind(this, j, i);
+                element.innerText = "O";
+                element.id = generateId(j,i);
 
-    function cellHandler (j, i) {
-        var field = model.getField();
-        //var number = 0;
-        //alert(factorial(number));
-        if (field[j][i].state == STATE.EMPTY) {
-            return;
-        }
-        if (field[j][i].state == STATE.SELECTED){
-            deleteCells();
-            verticalShift();
-            horizontalShift();
-            //if (finishCheck()) {
-            //    alert( "Game Over" );
-            //}
-        } else {
-            refreshArray();
-            if (colorSelector(j, i, field[j][i].color) < MIN_SELECTED_CELLS){
-                field[j][i].state = STATE.BASE;
+                element.style.backgroundColor = field[j][i].color;
+
+                rowDiv.appendChild(element);
             }
+            mainField.appendChild(rowDiv);
         }
-        refreshField();
-    }
-/*
+    };
+
+
 
     function deleteCells() {
         var i;
@@ -216,9 +189,9 @@ var view;
         return j >= 0 && i >= 0 && j < FIELD_HEIGHT && i < FIELD_WIDTH;
     }
 
-/!*    function generateColor() {
-        return COLOR[KEYS[parseInt(Math.random() * (KEYS.length - 1) + 1, 10)]];
-    }*!/
+    /*    function generateColor() {
+     return COLOR[KEYS[parseInt(Math.random() * (KEYS.length - 1) + 1, 10)]];
+     }*/
 
     function generateId(j, i){
         return "cell-" + j + "-" + i;
@@ -230,17 +203,5 @@ var view;
         }
         return number * factorial(number-1);
     }
-*/
 
-
-
-    function init() {
-        var btnNewGame;
-        btnNewGame = document.getElementById("new-game");
-        btnNewGame.addEventListener("click", newGame);
-        spanScore = document.getElementById("span-score");
-        spanScore.innerText = "0";
-    }
-
-    window.addEventListener("load", init);
-/*})();*/
+}
