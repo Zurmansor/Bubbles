@@ -1,7 +1,5 @@
 (function () {
 
-    var FIELD_WIDTH = 6;
-    var FIELD_HEIGHT = 6;
     var MIN_SELECTED_CELLS = 2;
     //var field = [];
     var state = StateEnum();
