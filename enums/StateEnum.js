@@ -1,7 +1,7 @@
 function StateEnum () {
     return {
         BASE: "base",
-        SELECTED: "selected",
+        MATCHED: "matched",
         EMPTY: "empty"
     };
 }

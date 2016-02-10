@@ -8,28 +8,29 @@ function View () {
 
         var i;
         var j;
-        var element;
+        var cell;
         var mainField = document.getElementById("main-field");
         var rowDiv;
+        var containerDiv = document.createElement("div");
 
         for (j = 0; j < settings.FIELD_HEIGHT; j++) {
             rowDiv = document.createElement("div");
             for (i = 0; i < settings.FIELD_WIDTH; i++) {
-                element = document.createElement("button");
-                element.onclick = cellHandler.bind(this, j, i);
-                element.innerText = "O";
-                element.id = generateId(j,i);
-
-                element.style.backgroundColor = field[j][i].color;
-
-                rowDiv.appendChild(element);
+                cell = document.createElement("button");
+                cell.onclick = cellHandler.bind(this, j, i);
+                //element.innerText = "O";
+                cell.id = generateId(j,i);
+                cell.style.backgroundColor = field[j][i].color;
+                rowDiv.appendChild(cell);
             }
-            mainField.appendChild(rowDiv);
+            containerDiv.appendChild(rowDiv);
         }
+        mainField.appendChild(containerDiv);
+        mainField.style.display = "inline-block";
     };
 
 
-    this.refreshField = function () {
+    this.refresh = function () {
         var i;
         var j;
         var element;
@@ -40,15 +41,16 @@ function View () {
                 element.style.backgroundColor = field[j][i].color;
 
                 switch (field[j][i].state) {
-                    case state.SELECTED:
-                        element.innerText = "+";
+                    case state.MATCHED:
+                        //element.innerText = "+";
+                        element.className = "matched-cell";
                         break;
                     case state.BASE:
-                        element.innerText = "O";
+                        //element.innerText = "O";
                         element.className = "";
                         break;
                     case state.EMPTY:
-                        element.innerText = "X";
+                        //element.innerText = " ";
                         element.className = "deleted-cell";
                         break;
                 }

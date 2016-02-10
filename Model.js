@@ -6,6 +6,7 @@ function Model() {
     var score = 0;
 
     this.generate = function () {
+        //field = [];
         var i;
         var j;
         for (j = 0; j < settings.FIELD_HEIGHT; j++) {
@@ -35,7 +36,7 @@ function Model() {
 
         for (j = 0; j < settings.FIELD_HEIGHT; j++) {
             for (i = 0; i < settings.FIELD_WIDTH; i++) {
-                if (field[j][i].state == state.SELECTED) {
+                if (field[j][i].state == state.MATCHED) {
                     countDeletedCells++;
                     field[j][i].state = state.EMPTY;
                     field[j][i].color = null;
@@ -103,62 +104,50 @@ function Model() {
         return null;
     }
 
-    this.refreshArray = function () {
+    this.refresh = function () {
         var i;
         var j;
 
         for (j = 0; j < settings.FIELD_HEIGHT; j++) {
             for (i = 0; i < settings.FIELD_WIDTH; i++) {
-                if (field[j][i].state == state.SELECTED) {
+                if (field[j][i].state == state.MATCHED) {
                     field[j][i].state = state.BASE;
                 }
             }
         }
     };
 
-    this.colorSelector = function (j, i, color) {
-        var count = 0;
-        if (borderCheck(j,i) && field[j][i].color === color && field[j][i].state == state.BASE) {
-            count = 1;
-            field[j][i].state = state.SELECTED;
-            count += this.colorSelector(j+1, i, color);
-            count += this.colorSelector(j-1, i, color);
-            count += this.colorSelector(j, i+1, color);
-            count += this.colorSelector(j, i-1, color);
-        }
-        return count;
-    };
-
     function borderCheck(j, i){
         return j >= 0 && i >= 0 && j < settings.FIELD_HEIGHT && i < settings.FIELD_WIDTH;
     }
 
-    // TODO
-    /*    function finishCheck() {
-     var i;
-     var j;
 
-     for (j = FIELD_HEIGHT-1; j >= 0; j--) {
-     for (i = FIELD_WIDTH-1; i >= 0; i--) {
-     if (colorMatch(j, i, field[j][i].color) >= MIN_SELECTED_CELLS){
-     //alert( "Game Over" );
-     return false;
-     }
-     }
-     }
-     return true;
-     }*/
+     this.finishCheck = function () {
+         var i;
+         var j;
 
-/*    function colorMatch (j, i, color) {
+         for (j = settings.FIELD_HEIGHT-1; j >= 0; j--) {
+             for (i = settings.FIELD_WIDTH-1; i >= 0; i--) {
+                 if (this.colorMatch(j, i, field[j][i].color) >= settings.MIN_SELECTED_CELLS){
+                     //alert( "Game Over" );
+                     return false;
+                 }
+             }
+         }
+         return true;
+     };
+
+    this.colorMatch = function (j, i, color) {
         var count = 0;
-        if (borderCheck(j,i) && field[j][i].color === color && field[j][i].state == STATE.BASE) {
+        if (borderCheck(j,i) && field[j][i].color === color && field[j][i].state == state.BASE) {
             count = 1;
             //console.log(count);
-            count += colorMatch(j+1, i, color);
-            count += colorMatch(j-1, i, color);
-            count += colorMatch(j, i+1, color);
-            count += colorMatch(j, i-1, color);
+            field[j][i].state = state.MATCHED;
+            count += this.colorMatch(j+1, i, color);
+            count += this.colorMatch(j-1, i, color);
+            count += this.colorMatch(j, i+1, color);
+            count += this.colorMatch(j, i-1, color);
         }
         return count;
-    }*/
+    };
 }

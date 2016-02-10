@@ -12,6 +12,8 @@
 	<script type="text/javascript" src="main.js"></script>
 	<script type="text/javascript" src="Model.js"></script>
 	<script type="text/javascript" src="View.js"></script>
+	<script type="text/javascript" src="ModalWindow.js"></script>
+
 
 	<link rel="stylesheet" type="text/css" href="main.css"/>
 </head>
@@ -23,7 +25,11 @@
 
 
     <button id="new-game"  data-j="10" data-i="99">New Game</button>
-    <div id="main-field"></div>
+	<div id="container">
+		<div id="main-field"></div>
+	</div>
+
+	<!--<div onclick="modalWindow.show([100], [<div>Bubbles</div>])">open</div>-->
 
 </body>
     
