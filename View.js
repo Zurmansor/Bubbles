@@ -2,6 +2,7 @@ function View () {
     var settings = Settings();
     var state = StateEnum();
     var field;
+    var containerDiv = document.createElement("div");
 
     this.generate = function(f, cellHandler) {
         field = f;
@@ -11,23 +12,30 @@ function View () {
         var cell;
         var mainField = document.getElementById("main-field");
         var rowDiv;
-        var containerDiv = document.createElement("div");
 
         for (j = 0; j < settings.FIELD_HEIGHT; j++) {
             rowDiv = document.createElement("div");
             for (i = 0; i < settings.FIELD_WIDTH; i++) {
                 cell = document.createElement("button");
-                cell.onclick = cellHandler.bind(this, j, i);
-                //element.innerText = "O";
+                cell.dataset.i = i;
+                cell.dataset.j = j;
+                //cell.onclick = cellHandler.bind(this, j, i);
                 cell.id = generateId(j,i);
                 cell.style.backgroundColor = field[j][i].color;
                 rowDiv.appendChild(cell);
             }
             containerDiv.appendChild(rowDiv);
         }
+        containerDiv.addEventListener("click", function (event) {
+            cellHandler(event.target.dataset.j, event.target.dataset.i);
+        });
+
         mainField.appendChild(containerDiv);
         mainField.style.display = "inline-block";
+
     };
+
+
 
 
     this.refresh = function () {
@@ -58,16 +66,8 @@ function View () {
         }
     };
 
-
     function generateId(j, i){
         return "cell-" + j + "-" + i;
     }
-
-/*    function factorial(number) {
-        if (number == 1 || number == 0) {
-            return 1;
-        }
-        return number * factorial(number-1);
-    }*/
 
 }

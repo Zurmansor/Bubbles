@@ -48,6 +48,10 @@ function Model() {
         countDeletedCells = 0;
     };
 
+    this.getScore = function () {
+        return score;
+    };
+
     this.verticalShift = function () {
         var i;
         var j;

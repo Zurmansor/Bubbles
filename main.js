@@ -7,6 +7,7 @@
     var view;
 
     function newGame(event) {
+        console.dir(event);
         if (model.getField().length > 0) {
             if (confirm("Are you sure?")) {
                 model.generate();
@@ -19,6 +20,7 @@
     }
 
     function cellHandler (j, i) {
+        console.log(j + " -- " + i);
         var field = model.getField();
 
         if (field[j][i].state == state.EMPTY) {
@@ -31,8 +33,9 @@
             if (model.finishCheck()) {
                 model.refresh();
                 view.refresh();
-                //TODO: add a message about game over
-                console.log('GAME OVER');
+                if (confirm("GAME OVER - " + model.getScore())) {
+                    newGame();
+                }
                 return;
             } else {
                 model.refresh();
